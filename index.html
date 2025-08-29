@@ -48,4 +48,33 @@
     vertical-align: middle;
   }
   @keyframes scroll{
-    from{ transfor
+    from{ transform: translateX(0); }
+    to  { transform: translateX(-50%); } /* track is duplicated for seamless loop */
+  }
+</style>
+</head>
+<body>
+  <div class="ticker" aria-label="Scrolling username banner">
+    <div class="track" id="track">
+      <!-- One set -->
+      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
+      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
+      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
+      <!-- Duplicate the set for a gap-less loop -->
+      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
+      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
+      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
+    </div>
+  </div>
+  <script>
+    // Auto-scale font to the height of the browser source (optional)
+    function fitText(){
+      const h = window.innerHeight;
+      document.documentElement.style.setProperty('--font-size', Math.max(24, Math.floor(h*0.5)) + 'px');
+    }
+    window.addEventListener('resize', fitText);
+    fitText();
+  </script>
+</body>
+</html>
+
