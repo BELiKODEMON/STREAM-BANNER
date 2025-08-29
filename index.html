@@ -1,80 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Scrolling Username Banner</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Futuristic Stream Banner</title>
 <style>
-  :root{
-    --speed: 12s;            /* scrolling duration; lower = faster */
-    --font-size: 48px;       /* text size */
-    --text-color: #00ffcc;   /* text color */
-    --glow: 0 0 12px rgba(0,0,0,.8); /* shadow/glow */
-    --gap: 64px;             /* space between repeats */
-    --font: "Segoe UI", Arial, sans-serif;
+  body {
+    margin: 0;
+    padding: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      #555,
+      #555 2px,
+      #666 3px
+    );
+    font-family: "Segoe UI", Arial, sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
   }
-  html,body{ height:100%; }
-  body{
-    margin:0;
-    background:transparent; /* keep it see-through for overlay */
-    overflow:hidden;
+
+  .banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    padding: 20px;
+    border: 2px solid #8000ff;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #8000ff, 0 0 60px #8000ff;
+    background: rgba(0,0,0,0.3);
+    position: relative; /* needed for absolute coin */
+    box-sizing: border-box;
   }
-  .ticker{
-    position:relative;
-    width:100%;
-    height:100%;
-    display:flex;
-    align-items:center;
-    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+
+  /* Left side text */
+  .left-text {
+    color: #a020f0;
+    font-size: 40px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 150px;
+    text-align: left;
+    position: relative;
   }
-  .track{
-    display:flex;
-    align-items:center;
-    gap:var(--gap);
-    white-space:nowrap;
-    will-change: transform;
-    animation: scroll var(--speed) linear infinite;
+
+  .left-text span {
+    position: absolute;
+    opacity: 0;
+    white-space: nowrap;
+    animation: fadeText 8s infinite; /* slowed down pulse */
   }
-  .item{
-    display:flex;
-    align-items:center;
-    font: 700 var(--font-size)/1 var(--font);
-    color: var(--text-color);
-    text-shadow: var(--glow);
+
+  .left-text span:nth-child(1) { animation-delay: 0s; }
+  .left-text span:nth-child(2) { animation-delay: 4s; }
+
+  @keyframes fadeText {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    45% { opacity: 1; }
+    55% { opacity: 0; }
+    100% { opacity: 0; }
   }
-  .logo{
-    height: 1em;          /* matches text height nicely */
-    margin-right: .4em;
-    vertical-align: middle;
+
+  /* Middle coin */
+  .coin-container {
+    perspective: 1000px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  @keyframes scroll{
-    from{ transform: translateX(0); }
-    to  { transform: translateX(-50%); } /* track is duplicated for seamless loop */
+
+  .coin {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spin 6s linear infinite;
   }
+
+  .coin img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #8000ff;
+  }
+
+  .coin .back {
+    transform: rotateY(180deg);
+  }
+
+  @keyframes spin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  /* Right side social */
+  .right-social {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: auto;
+    max-width: 250px;
+    justify-content: flex-end;
+  }
+
+  .right-social .social-item {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    animation: fadeSocial 8s infinite; /* slower fade */
+  }
+
+  .right-social .social-item:nth-child(1) { animation-delay: 0s; }
+  .right-social .social-item:nth-child(2) { animation-delay: 4s; }
+
+  .right-social img {
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  @keyframes fadeSocial {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    45% { opacity: 1; }
+    55% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  .social-item span {
+    color: #a020f0;
+    font-size: 36px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #a020f0, 0 0 10px #8000ff;
+  }
+
 </style>
 </head>
 <body>
-  <div class="ticker" aria-label="Scrolling username banner">
-    <div class="track" id="track">
-      <!-- One set -->
-      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
-      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
-      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
-      <!-- Duplicate the set for a gap-less loop -->
-      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
-      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
-      <div class="item"><img class="logo" src="BARBIESSS LOGO.png" alt="logo">BELiKODEMON</div>
+
+<div class="banner">
+
+  <!-- Left side -->
+  <div class="left-text">
+    <span>FOLLOW ME</span>
+    <span>SIGUEME</span>
+  </div>
+
+  <!-- Middle coin -->
+  <div class="coin-container">
+    <div class="coin">
+      <img src="ME.png" alt="Me" class="front">
+      <img src="BARBIESSS LOGO.png" alt="Logo" class="back">
     </div>
   </div>
-  <script>
-    // Auto-scale font to the height of the browser source (optional)
-    function fitText(){
-      const h = window.innerHeight;
-      document.documentElement.style.setProperty('--font-size', Math.max(24, Math.floor(h*0.5)) + 'px');
-    }
-    window.addEventListener('resize', fitText);
-    fitText();
-  </script>
+
+  <!-- Right side -->
+  <div class="right-social">
+    <div class="social-item">
+      <img src="TIKTOK LOGO.png" alt="TikTok">
+      <span>BELiKODEMON</span>
+    </div>
+    <div class="social-item">
+      <img src="TWITCH LOGO.png" alt="Twitch">
+      <span>BELiKODEMON</span>
+    </div>
+  </div>
+
+</div>
+
 </body>
 </html>
+
 
